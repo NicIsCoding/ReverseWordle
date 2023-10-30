@@ -1,0 +1,158 @@
+# This is a sample Python script.
+import base64
+
+# Press ⌃R to execute it or replace it with your code.
+# Press Double ⇧ to search everywhere for classes, files, tool windows, actions, and settings.
+
+#here I import the random module from Python
+import random
+
+#here I trace the file path to the dictionary I will use in this code.
+file_path = r'/Users/nicolaskeller/Desktop/valid-wordle-words copy.txt'
+
+# here I create the dictionary by looping through the file in my computer
+wordList = {}
+with open(file_path, 'r') as file:
+    for line in file:
+        word, score = line.strip().split(": ")
+        wordList[word] = int(score)
+
+#here I print the rules for the user
+print("Rules:\nThink of a 5 letter word! The computer gets 6 tries\nto guess your word. Can you beat the computer?\n\nThink of a 5 letter word, and type ok when ready!")
+
+#here I make sure the user has their word in mind and is ready to begin
+okInput = input()
+
+#here I end the program if the user does not type "ok"
+if not okInput.casefold() == "ok":
+    print("You did not type ok")
+    exit()
+
+#here I continue the program if the user does type "ok"
+else:
+    print("Let's begin!")
+
+#here I define some variables to help keep track as we identify letters
+firstLetter = ''
+secondLetter = ''
+thirdLetter = ''
+fourthLetter = ''
+fifthLetter = ''
+sixthLetter = ''
+
+j = 0
+
+while j < 6:
+
+    j += 1
+
+    if len(wordList) == 0:
+        print("Your word does not exist")
+        keys = list(wordList.keys())
+        print("WordList: " + keys)
+        exit()
+
+    #here I seperate the keys and values into different lists so that I can
+    #use the values to influence the probability of a word being chosen
+    keys = list(wordList.keys())
+    values = list(wordList.values())
+    randomGuessList = random.choices(keys, weights = values)
+    randomGuess = randomGuessList[0]
+
+    #here I see if the computer's guess was right
+    print("Is the word " + randomGuess + " (please say yes or no)")
+    userAnswer = input()
+
+    d = 0
+
+    #if the guess was right, the game ends
+    if userAnswer.casefold() == "yes":
+        print("Computer Wins!")
+        exit()
+
+    #if the guess was wrong, we do some trial and error
+    elif userAnswer.casefold() == "no":
+
+        #here we loop through each letter in the computer's random guess
+        for i in randomGuess:
+
+            #first we identify if the letter is in the user's word
+            print("Is " + i + " in the word? (please say yes or no)")
+            inWord = input()
+
+            #if it is not, we make a copy of our dictionary
+            if inWord.casefold() == "no":
+
+                matchLetter = i
+                wordListCopy = wordList.copy()
+
+                filteredWords = {}
+
+                for word, score in wordListCopy.items():
+                    if matchLetter in word:
+                        pass
+                    else:
+                        filteredWords[word] = score
+
+                wordList = filteredWords
+                #print(wordList)
+
+
+            elif inWord.casefold() == "yes":
+
+                print('Is ' + i + ' in the correct location? please say "yes" or "no"')
+                inPlace = input()
+
+                if inPlace.casefold() == "yes":
+
+                    checkPosition = d
+                    matchLetter = i
+
+                    wordListCopy = wordList.copy()
+
+                    filteredWords = {}
+
+                    for word, score in wordListCopy.items():
+                        wordString = word
+                        if not wordString[checkPosition] == matchLetter or not matchLetter in wordString:
+                            pass
+                        else:
+                            filteredWords[word] = score
+
+
+                    wordList = filteredWords
+                    #print(wordList)
+
+                elif inPlace.casefold() == "no":
+
+                    # here we initialize the position of each word to check and the letter to check it against
+                    checkPosition = d
+                    matchLetter = i
+
+                    wordListCopy = wordList.copy()
+
+                    filteredWords = {}
+
+                    for word, score in wordListCopy.items():
+                        wordString = word
+                        if wordString[checkPosition] == matchLetter or not matchLetter in wordString:
+                            pass
+                        else:
+                            filteredWords[word] = score
+
+
+                    wordList = filteredWords
+                    #print(wordList)
+
+                else:
+                    print('you did not type "yes" or "no"')
+
+            else:
+                print('you did not type "yes" or "no"')
+                exit()
+
+            d += 1
+
+    else:
+        print('You did not type "yes" or "no"')
+        exit()
