@@ -1,0 +1,179 @@
+<html>
+<head>
+<title>main.py</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #7a7e85;}
+.s1 { color: #bcbec4;}
+.s2 { color: #cf8e6d;}
+.s3 { color: #bcbec4;}
+.s4 { color: #6aab73;}
+.s5 { color: #2aacb8;}
+</style>
+</head>
+<body bgcolor="#1e1f22">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+main.py</font>
+</center></td></tr></table>
+<pre><span class="s0"># This is a sample Python script.</span>
+<span class="s2">import </span><span class="s1">base64</span>
+
+<span class="s0"># Press ⌃R to execute it or replace it with your code.</span>
+<span class="s0"># Press Double ⇧ to search everywhere for classes, files, tool windows, actions, and settings.</span>
+
+<span class="s0">#here I import the random module from Python</span>
+<span class="s2">import </span><span class="s1">random</span>
+
+<span class="s0">#here I trace the file path to the dictionary I will use in this code.</span>
+<span class="s1">file_path </span><span class="s3">= </span><span class="s4">r'/Users/nicolaskeller/Desktop/valid-wordle-words copy.txt'</span>
+
+<span class="s0"># here I create the dictionary by looping through the file in my computer</span>
+<span class="s1">wordList </span><span class="s3">= {}</span>
+<span class="s2">with </span><span class="s1">open</span><span class="s3">(</span><span class="s1">file_path</span><span class="s3">, </span><span class="s4">'r'</span><span class="s3">) </span><span class="s2">as </span><span class="s1">file</span><span class="s3">:</span>
+    <span class="s2">for </span><span class="s1">line </span><span class="s2">in </span><span class="s1">file</span><span class="s3">:</span>
+        <span class="s1">word</span><span class="s3">, </span><span class="s1">score </span><span class="s3">= </span><span class="s1">line</span><span class="s3">.</span><span class="s1">strip</span><span class="s3">().</span><span class="s1">split</span><span class="s3">(</span><span class="s4">&quot;: &quot;</span><span class="s3">)</span>
+        <span class="s1">wordList</span><span class="s3">[</span><span class="s1">word</span><span class="s3">] = </span><span class="s1">int</span><span class="s3">(</span><span class="s1">score</span><span class="s3">)</span>
+
+<span class="s0">#here I print the rules for the user</span>
+<span class="s1">print</span><span class="s3">(</span><span class="s4">&quot;Rules:</span><span class="s2">\n</span><span class="s4">Think of a 5 letter word! The computer gets 6 tries</span><span class="s2">\n</span><span class="s4">to guess your word. Can you beat the computer?</span><span class="s2">\n\n</span><span class="s4">Think of a 5 letter word, and type ok when ready!&quot;</span><span class="s3">)</span>
+
+<span class="s0">#here I make sure the user has their word in mind and is ready to begin</span>
+<span class="s1">okInput </span><span class="s3">= </span><span class="s1">input</span><span class="s3">()</span>
+
+<span class="s0">#here I end the program if the user does not type &quot;ok&quot;</span>
+<span class="s2">if not </span><span class="s1">okInput</span><span class="s3">.</span><span class="s1">casefold</span><span class="s3">() == </span><span class="s4">&quot;ok&quot;</span><span class="s3">:</span>
+    <span class="s1">print</span><span class="s3">(</span><span class="s4">&quot;You did not type ok&quot;</span><span class="s3">)</span>
+    <span class="s1">exit</span><span class="s3">()</span>
+
+<span class="s0">#here I continue the program if the user does type &quot;ok&quot;</span>
+<span class="s2">else</span><span class="s3">:</span>
+    <span class="s1">print</span><span class="s3">(</span><span class="s4">&quot;Let's begin!&quot;</span><span class="s3">)</span>
+
+<span class="s0">#here I define some variables to help keep track as we identify letters</span>
+<span class="s1">firstLetter </span><span class="s3">= </span><span class="s4">''</span>
+<span class="s1">secondLetter </span><span class="s3">= </span><span class="s4">''</span>
+<span class="s1">thirdLetter </span><span class="s3">= </span><span class="s4">''</span>
+<span class="s1">fourthLetter </span><span class="s3">= </span><span class="s4">''</span>
+<span class="s1">fifthLetter </span><span class="s3">= </span><span class="s4">''</span>
+<span class="s1">sixthLetter </span><span class="s3">= </span><span class="s4">''</span>
+
+<span class="s1">j </span><span class="s3">= </span><span class="s5">0</span>
+
+<span class="s2">while </span><span class="s1">j </span><span class="s3">&lt; </span><span class="s5">6</span><span class="s3">:</span>
+
+    <span class="s1">j </span><span class="s3">+= </span><span class="s5">1</span>
+
+    <span class="s2">if </span><span class="s1">len</span><span class="s3">(</span><span class="s1">wordList</span><span class="s3">) == </span><span class="s5">0</span><span class="s3">:</span>
+        <span class="s1">print</span><span class="s3">(</span><span class="s4">&quot;Your word does not exist&quot;</span><span class="s3">)</span>
+        <span class="s1">keys </span><span class="s3">= </span><span class="s1">list</span><span class="s3">(</span><span class="s1">wordList</span><span class="s3">.</span><span class="s1">keys</span><span class="s3">())</span>
+        <span class="s1">print</span><span class="s3">(</span><span class="s4">&quot;WordList: &quot; </span><span class="s3">+ </span><span class="s1">keys</span><span class="s3">)</span>
+        <span class="s1">exit</span><span class="s3">()</span>
+
+    <span class="s0">#here I seperate the keys and values into different lists so that I can</span>
+    <span class="s0">#use the values to influence the probability of a word being chosen</span>
+    <span class="s1">keys </span><span class="s3">= </span><span class="s1">list</span><span class="s3">(</span><span class="s1">wordList</span><span class="s3">.</span><span class="s1">keys</span><span class="s3">())</span>
+    <span class="s1">values </span><span class="s3">= </span><span class="s1">list</span><span class="s3">(</span><span class="s1">wordList</span><span class="s3">.</span><span class="s1">values</span><span class="s3">())</span>
+    <span class="s1">randomGuessList </span><span class="s3">= </span><span class="s1">random</span><span class="s3">.</span><span class="s1">choices</span><span class="s3">(</span><span class="s1">keys</span><span class="s3">, </span><span class="s1">weights </span><span class="s3">= </span><span class="s1">values</span><span class="s3">)</span>
+    <span class="s1">randomGuess </span><span class="s3">= </span><span class="s1">randomGuessList</span><span class="s3">[</span><span class="s5">0</span><span class="s3">]</span>
+
+    <span class="s0">#here I see if the computer's guess was right</span>
+    <span class="s1">print</span><span class="s3">(</span><span class="s4">&quot;Is the word &quot; </span><span class="s3">+ </span><span class="s1">randomGuess </span><span class="s3">+ </span><span class="s4">&quot; (please say yes or no)&quot;</span><span class="s3">)</span>
+    <span class="s1">userAnswer </span><span class="s3">= </span><span class="s1">input</span><span class="s3">()</span>
+
+    <span class="s1">d </span><span class="s3">= </span><span class="s5">0</span>
+
+    <span class="s0">#if the guess was right, the game ends</span>
+    <span class="s2">if </span><span class="s1">userAnswer</span><span class="s3">.</span><span class="s1">casefold</span><span class="s3">() == </span><span class="s4">&quot;yes&quot;</span><span class="s3">:</span>
+        <span class="s1">print</span><span class="s3">(</span><span class="s4">&quot;Computer Wins!&quot;</span><span class="s3">)</span>
+        <span class="s1">exit</span><span class="s3">()</span>
+
+    <span class="s0">#if the guess was wrong, we do some trial and error</span>
+    <span class="s2">elif </span><span class="s1">userAnswer</span><span class="s3">.</span><span class="s1">casefold</span><span class="s3">() == </span><span class="s4">&quot;no&quot;</span><span class="s3">:</span>
+
+        <span class="s0">#here we loop through each letter in the computer's random guess</span>
+        <span class="s2">for </span><span class="s1">i </span><span class="s2">in </span><span class="s1">randomGuess</span><span class="s3">:</span>
+
+            <span class="s0">#first we identify if the letter is in the user's word</span>
+            <span class="s1">print</span><span class="s3">(</span><span class="s4">&quot;Is &quot; </span><span class="s3">+ </span><span class="s1">i </span><span class="s3">+ </span><span class="s4">&quot; in the word? (please say yes or no)&quot;</span><span class="s3">)</span>
+            <span class="s1">inWord </span><span class="s3">= </span><span class="s1">input</span><span class="s3">()</span>
+
+            <span class="s0">#if it is not, we make a copy of our dictionary</span>
+            <span class="s2">if </span><span class="s1">inWord</span><span class="s3">.</span><span class="s1">casefold</span><span class="s3">() == </span><span class="s4">&quot;no&quot;</span><span class="s3">:</span>
+
+                <span class="s1">matchLetter </span><span class="s3">= </span><span class="s1">i</span>
+                <span class="s1">wordListCopy </span><span class="s3">= </span><span class="s1">wordList</span><span class="s3">.</span><span class="s1">copy</span><span class="s3">()</span>
+
+                <span class="s1">filteredWords </span><span class="s3">= {}</span>
+
+                <span class="s2">for </span><span class="s1">word</span><span class="s3">, </span><span class="s1">score </span><span class="s2">in </span><span class="s1">wordListCopy</span><span class="s3">.</span><span class="s1">items</span><span class="s3">():</span>
+                    <span class="s2">if </span><span class="s1">matchLetter </span><span class="s2">in </span><span class="s1">word</span><span class="s3">:</span>
+                        <span class="s2">pass</span>
+                    <span class="s2">else</span><span class="s3">:</span>
+                        <span class="s1">filteredWords</span><span class="s3">[</span><span class="s1">word</span><span class="s3">] = </span><span class="s1">score</span>
+
+                <span class="s1">wordList </span><span class="s3">= </span><span class="s1">filteredWords</span>
+                <span class="s0">#print(wordList)</span>
+
+
+            <span class="s2">elif </span><span class="s1">inWord</span><span class="s3">.</span><span class="s1">casefold</span><span class="s3">() == </span><span class="s4">&quot;yes&quot;</span><span class="s3">:</span>
+
+                <span class="s1">print</span><span class="s3">(</span><span class="s4">'Is ' </span><span class="s3">+ </span><span class="s1">i </span><span class="s3">+ </span><span class="s4">' in the correct location? please say &quot;yes&quot; or &quot;no&quot;'</span><span class="s3">)</span>
+                <span class="s1">inPlace </span><span class="s3">= </span><span class="s1">input</span><span class="s3">()</span>
+
+                <span class="s2">if </span><span class="s1">inPlace</span><span class="s3">.</span><span class="s1">casefold</span><span class="s3">() == </span><span class="s4">&quot;yes&quot;</span><span class="s3">:</span>
+
+                    <span class="s1">checkPosition </span><span class="s3">= </span><span class="s1">d</span>
+                    <span class="s1">matchLetter </span><span class="s3">= </span><span class="s1">i</span>
+
+                    <span class="s1">wordListCopy </span><span class="s3">= </span><span class="s1">wordList</span><span class="s3">.</span><span class="s1">copy</span><span class="s3">()</span>
+
+                    <span class="s1">filteredWords </span><span class="s3">= {}</span>
+
+                    <span class="s2">for </span><span class="s1">word</span><span class="s3">, </span><span class="s1">score </span><span class="s2">in </span><span class="s1">wordListCopy</span><span class="s3">.</span><span class="s1">items</span><span class="s3">():</span>
+                        <span class="s1">wordString </span><span class="s3">= </span><span class="s1">word</span>
+                        <span class="s2">if not </span><span class="s1">wordString</span><span class="s3">[</span><span class="s1">checkPosition</span><span class="s3">] == </span><span class="s1">matchLetter </span><span class="s2">or not </span><span class="s1">matchLetter </span><span class="s2">in </span><span class="s1">wordString</span><span class="s3">:</span>
+                            <span class="s2">pass</span>
+                        <span class="s2">else</span><span class="s3">:</span>
+                            <span class="s1">filteredWords</span><span class="s3">[</span><span class="s1">word</span><span class="s3">] = </span><span class="s1">score</span>
+
+
+                    <span class="s1">wordList </span><span class="s3">= </span><span class="s1">filteredWords</span>
+                    <span class="s0">#print(wordList)</span>
+
+                <span class="s2">elif </span><span class="s1">inPlace</span><span class="s3">.</span><span class="s1">casefold</span><span class="s3">() == </span><span class="s4">&quot;no&quot;</span><span class="s3">:</span>
+
+                    <span class="s0"># here we initialize the position of each word to check and the letter to check it against</span>
+                    <span class="s1">checkPosition </span><span class="s3">= </span><span class="s1">d</span>
+                    <span class="s1">matchLetter </span><span class="s3">= </span><span class="s1">i</span>
+
+                    <span class="s1">wordListCopy </span><span class="s3">= </span><span class="s1">wordList</span><span class="s3">.</span><span class="s1">copy</span><span class="s3">()</span>
+
+                    <span class="s1">filteredWords </span><span class="s3">= {}</span>
+
+                    <span class="s2">for </span><span class="s1">word</span><span class="s3">, </span><span class="s1">score </span><span class="s2">in </span><span class="s1">wordListCopy</span><span class="s3">.</span><span class="s1">items</span><span class="s3">():</span>
+                        <span class="s1">wordString </span><span class="s3">= </span><span class="s1">word</span>
+                        <span class="s2">if </span><span class="s1">wordString</span><span class="s3">[</span><span class="s1">checkPosition</span><span class="s3">] == </span><span class="s1">matchLetter </span><span class="s2">or not </span><span class="s1">matchLetter </span><span class="s2">in </span><span class="s1">wordString</span><span class="s3">:</span>
+                            <span class="s2">pass</span>
+                        <span class="s2">else</span><span class="s3">:</span>
+                            <span class="s1">filteredWords</span><span class="s3">[</span><span class="s1">word</span><span class="s3">] = </span><span class="s1">score</span>
+
+
+                    <span class="s1">wordList </span><span class="s3">= </span><span class="s1">filteredWords</span>
+                    <span class="s0">#print(wordList)</span>
+
+                <span class="s2">else</span><span class="s3">:</span>
+                    <span class="s1">print</span><span class="s3">(</span><span class="s4">'you did not type &quot;yes&quot; or &quot;no&quot;'</span><span class="s3">)</span>
+
+            <span class="s2">else</span><span class="s3">:</span>
+                <span class="s1">print</span><span class="s3">(</span><span class="s4">'you did not type &quot;yes&quot; or &quot;no&quot;'</span><span class="s3">)</span>
+                <span class="s1">exit</span><span class="s3">()</span>
+
+            <span class="s1">d </span><span class="s3">+= </span><span class="s5">1</span>
+
+    <span class="s2">else</span><span class="s3">:</span>
+        <span class="s1">print</span><span class="s3">(</span><span class="s4">'You did not type &quot;yes&quot; or &quot;no&quot;'</span><span class="s3">)</span>
+        <span class="s1">exit</span><span class="s3">()</span></pre>
+</body>
+</html>
