@@ -1,0 +1,68 @@
+# This is a sample Python script.
+import base64
+
+# Press ⌃R to execute it or replace it with your code.
+# Press Double ⇧ to search everywhere for classes, files, tool windows, actions, and settings.
+
+
+file_path = r'/Users/nicolaskeller/Desktop/valid-wordle-words.txt'
+
+with open(file_path, 'r') as file:
+    # text_data = file.read()
+    lines = file.readlines()
+
+newLines = []
+wordsWithValues = {}
+lewlandFrequency = ['e', 't', 'a', 'o', 'i', 'n', 's', 'h', 'r', 'd', 'l', 'c', 'u', 'm', 'w', 'f', 'g', 'y', 'p', 'b',
+                    'v', 'k', 'j', 'x', 'q', 'z']
+
+vowels = ['a', 'e', 'i', 'o', 't']
+
+for word in lines:
+    word = word.rstrip('\n')
+    newLines.append(word)
+
+#print(newLines)
+
+for word in newLines:
+    score = 0
+    i = 0
+    points = 26
+    vowelCounter = 0
+
+    for letter in word:
+
+        if letter in lewlandFrequency:
+            letterIndex = lewlandFrequency.index(letter)
+            score += 26 - letterIndex
+            if letter in vowels:
+                vowelCounter += 1
+
+        # while i < 27 or letterFound is False:
+
+        #if letter == lewlandFrequency[i]:
+            #score += points - i
+            #reak
+        if vowelCounter > 1:
+            score -= 5
+        elif vowelCounter > 2:
+            score -= 10
+
+    score -= 31
+
+    wordsWithValues[word] = score
+
+wordsWithValues = dict(sorted(wordsWithValues.items(), key = lambda item: item[1], reverse = True))
+
+output_file_path = '/Users/nicolaskeller/Desktop/valid-wordle-words copy.txt'
+
+#lowestKey = min(wordsWithValues.items(), key=lambda x: x[1])
+#print ("Item with the lowest key:", lowestKey[0], lowestKey[1])
+
+#print (wordsWithValues)
+
+with open(output_file_path, 'w') as file:
+    for word, score in wordsWithValues.items():
+        file.write(f"{word}: {score}\n")
+
+#print(f"Dictionary saved to {output_file_path}")
